@@ -18,7 +18,7 @@ public class JavaApplication {
         // 0. 서비스 생성
         UserService userService = new JCFUserService();
         ChannelService channelService = new JCFChannelService();
-        MessageService messageService = new JCFMessageService();
+        MessageService messageService = new JCFMessageService(channelService, userService);
 
         // 1. 사용자 서비스 테스트
         printTitle("USER");
@@ -178,6 +178,58 @@ public class JavaApplication {
                 "존재하지 않는 메시지 조회",
                 IllegalArgumentException.class,
                 () -> messageService.find(UUID.randomUUID())
+        );
+
+        // 3 - 8. 도메인 관계 검증 테스트
+        printStep(8, "도메인 관계 검증 테스트");
+
+        UUID validUserId = createUser.getId();
+        UUID validChannelId = createChannel.getId();
+        UUID deletedUserId = modifyUser.getId();
+        UUID deletedChannelId = modifyChannel.getId();
+
+        // 존재하지 않는 사용자로 메시지 등록
+        testException(
+                "존재하지 않는 사용자로 메시지 등록",
+                IllegalArgumentException.class,
+                () -> messageService.create(
+                        "잘못된 사용자 테스트"
+                        , validChannelId
+                        , UUID.randomUUID()
+                )
+        );
+
+        // 존재하지 않는 채널로 메시지 등록
+        testException(
+                "존재하지 않는 채널로 메시지 등록",
+                IllegalArgumentException.class,
+                () -> messageService.create(
+                        "잘못된 채널 테스트"
+                        , UUID.randomUUID()
+                        , validUserId
+                )
+        );
+
+        // 삭제된 사용자로 메시지 등록
+        testException(
+                "삭제된 사용자로 메시지 등록",
+                IllegalArgumentException.class,
+                () -> messageService.create(
+                        "삭제된 사용자 테스트"
+                        , validChannelId
+                        , deletedUserId
+                )
+        );
+
+        // 삭제된 채널로 메시지 등록
+        testException(
+                "삭제된 채널로 메시지 등록",
+                IllegalArgumentException.class,
+                () -> messageService.create(
+                        "삭제된 채널 테스트"
+                        , deletedChannelId
+                        , validUserId
+                )
         );
 
         printEnd("MESSAGE");
