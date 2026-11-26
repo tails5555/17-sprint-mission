@@ -52,4 +52,16 @@ public class Message {
         this.authorId = authorId;
         this.updatedAt = System.currentTimeMillis();
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", content='" + content + '\'' +
+                ", channelId=" + channelId +
+                ", authorId=" + authorId +
+                '}';
+    }
 }
