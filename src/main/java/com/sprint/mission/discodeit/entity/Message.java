@@ -1,8 +1,11 @@
 package com.sprint.mission.discodeit.entity;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Message {
+public class Message implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     // 공통 필드: 모든 도메인 모델이 가집니다.
     private final UUID id;
     private final Long createdAt;

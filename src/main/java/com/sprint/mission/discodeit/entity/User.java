@@ -1,8 +1,11 @@
 package com.sprint.mission.discodeit.entity;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     // 공통 필드: 모든 도메인 모델이 가집니다.
     private final UUID id;
     private final Long createdAt;
@@ -11,7 +14,7 @@ public class User {
     // User 만의 필드
     private String username;    // 사용자 이름
     private String email;       // 이메일
-    private String password;    // 비밀번호
+    private transient String password;    // 비밀번호
 
     public User(String username, String email, String password) {
         this.id = UUID.randomUUID();                  // 겹치지 않는 id를 만듭니다.
