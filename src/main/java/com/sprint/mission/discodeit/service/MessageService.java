@@ -9,6 +9,6 @@ public interface MessageService {
     Message create(String content, UUID channelId, UUID authorId);    // 생성
     Message find(UUID messageId);                                     // 읽기(단건)
     List<Message> findAll();                                          // 모두 읽기
-    Message update(UUID messageId, String content, UUID channelId, UUID authorId);  // 수정
+    Message update(UUID messageId, String content);  // 수정
     void delete(UUID messageId);
 }

@@ -44,12 +44,9 @@ public class BasicMessageService implements MessageService {
     }
 
     @Override
-    public Message update(UUID messageId, String content, UUID channelId, UUID authorId) {
+    public Message update(UUID messageId, String content) {
         Message message = find(messageId); // 없으면 여기서 예외가 발생합니다.
-
-        // 채널 및 사용자 유효성 검증
-        channelRepository.find(channelId);
-        userRepository.find(authorId);
+        message.update(content);
         return messageRepository.save(message);
     }
 

@@ -159,7 +159,7 @@ public class JavaApplication {
 
         // 3 - 3. 수정
         printStep(3, "수정");
-        messageService.update(modifyMessage.getId(), "내용 수정을 진행하겠습니다.", createChannel.getId(), createUser.getId());
+        messageService.update(modifyMessage.getId(), "내용 수정을 진행하겠습니다.");
         System.out.println("수정 완료 : ID = " + modifyMessage.getId());
 
         // 3 - 4. 수정된 데이터 조회

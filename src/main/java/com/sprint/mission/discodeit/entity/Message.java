@@ -49,10 +49,9 @@ public class Message implements Serializable {
     }
 
     // 값을 바꾸는 메서드. 바꿀 때마다 수정 시각을 기록합니다.
-    public void update(String content, UUID channelId, UUID authorId) {
+    // content 내용만 수정 가능하게 추가 개선
+    public void update(String content) {
         this.content = content;
-        this.channelId = channelId;
-        this.authorId = authorId;
         this.updatedAt = System.currentTimeMillis();
     }
 
