@@ -1,7 +1,7 @@
-package com.sprint.mission.discodeit.service.file;
+package com.sprint.mission.discodeit.repository.file;
 
 import com.sprint.mission.discodeit.entity.User;
-import com.sprint.mission.discodeit.service.UserService;
+import com.sprint.mission.discodeit.repository.UserRepository;
 import com.sprint.mission.discodeit.util.FileUtils;
 
 import java.nio.file.Files;
@@ -10,11 +10,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-public class FileUserService implements UserService {
+public class FileUserRepository implements UserRepository {
     // 사용자 객체를 저장할 디렉터리 경로
     private final Path path;
 
-    public FileUserService() {
+    public FileUserRepository() {
         this.path = Paths.get(
                 System.getProperty("user.dir"),
                 "data",
@@ -27,13 +27,6 @@ public class FileUserService implements UserService {
     // 사용자 ID에 해당하는 파일 경로 반환
     private Path resolvePath(UUID userId) {
         return path.resolve(userId + ".ser");
-    }
-
-    @Override
-    public User create(String username, String email, String password) {
-        User user = new User(username, email, password);
-        FileUtils.save(resolvePath(user.getId()), user);
-        return user;
     }
 
     @Override
@@ -54,17 +47,13 @@ public class FileUserService implements UserService {
     }
 
     @Override
-    public User update(UUID userId, String username, String email, String password) {
-        User user = find(userId);
-        user.update(username, email, password);
-        FileUtils.save(resolvePath(userId), user);
+    public User save(User user) {
+        FileUtils.save(resolvePath(user.getId()), user);
         return user;
     }
 
     @Override
     public void delete(UUID userId) {
-        // 사용자 존재 여부 검증
-        find(userId);
         FileUtils.delete(resolvePath(userId));
     }
 }
